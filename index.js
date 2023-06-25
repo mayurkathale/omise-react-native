@@ -4,6 +4,7 @@ const vaultEndpoint = "https://vault.omise.co/";
 const apiEndpoint = "https://api.omise.co/";
 
 let _key;
+let _skey;
 let _apiVersion;
 class ReactNativeOmise {
     constructor() {
@@ -16,8 +17,9 @@ class ReactNativeOmise {
         this.createCharge = this.createCharge.bind(this);
     }
 
-    config(key, apiVersion = "2015-11-17") {
-        _key = key
+    config(key, skey, apiVersion = "2015-11-17") {
+        _key = key;
+        _skey = skey;
         _apiVersion = apiVersion;
     }
 
@@ -57,7 +59,7 @@ class ReactNativeOmise {
 
     createCharge(data) {
         const tokenEndpoint = vaultEndpoint + "charges";
-        const headers = this.getHeaders(_key)
+        const headers = this.getHeaders(_skey)
         return new Promise((resolve, reject) => {
             return fetch(tokenEndpoint, {
                 method: 'POST',
