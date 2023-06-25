@@ -13,6 +13,7 @@ class ReactNativeOmise {
         this.retrieveCustomer = this.retrieveCustomer.bind(this);
         this.updateCustomer = this.updateCustomer.bind(this);
         this.destroyCustomerCard = this.destroyCustomerCard.bind(this);
+        this.createCharge = this.createCharge.bind(this);
     }
 
     config(key, apiVersion = "2015-11-17") {
@@ -36,6 +37,26 @@ class ReactNativeOmise {
 
     createToken(data) {
         const tokenEndpoint = vaultEndpoint + "tokens";
+        const headers = this.getHeaders(_key)
+        return new Promise((resolve, reject) => {
+            return fetch(tokenEndpoint, {
+                method: 'POST',
+                cache: 'no-cache',
+                headers: headers,
+                body: JSON.stringify(data)
+            }).then((response) => {
+                if (response.ok && response.status === 200) {
+                    resolve(response.json());
+                } else {
+                    console.log("response not ok", response);
+                    reject(response.json());
+                }
+            }).catch((error) => resolve(error));
+        });
+    }
+
+    createCharge(data) {
+        const tokenEndpoint = vaultEndpoint + "charges";
         const headers = this.getHeaders(_key)
         return new Promise((resolve, reject) => {
             return fetch(tokenEndpoint, {
@@ -163,5 +184,6 @@ module.exports = {
     createCustomer: reactNativeOmise.createCustomer,
     retrieveCustomer: reactNativeOmise.retrieveCustomer,
     updateCustomer: reactNativeOmise.updateCustomer,
-    destroyCustomerCard: reactNativeOmise.destroyCustomerCard
+    destroyCustomerCard: reactNativeOmise.destroyCustomerCard,
+    createCharge: reactNativeOmise.createCharge
 }
