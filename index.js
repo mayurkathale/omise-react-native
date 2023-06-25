@@ -58,7 +58,7 @@ class ReactNativeOmise {
     }
 
     createCharge(data) {
-        const tokenEndpoint = vaultEndpoint + "charges";
+        const tokenEndpoint = apiEndpoint + "charges";
         const headers = this.getHeaders(_skey)
         return new Promise((resolve, reject) => {
             return fetch(tokenEndpoint, {
